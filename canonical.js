@@ -1,12 +1,12 @@
 const stdin = process.openStdin();
 var buildSummands = require('./build_summands');
+var buildCanonicalForm = require('./build_canonical_form');
 
 // Push all summands into an array of objects
 var summands_list = [];
 
 function convertToCanonical(equation) {
   summands_list = buildSummands(equation);
-  console.log("Summands list:", summands_list);
   return buildCanonicalForm(summands_list);
 }
 
