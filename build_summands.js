@@ -10,7 +10,6 @@ function isBracket(item){
 
 function addSummandToList(coefficient, variable, exponent, operator, passEqual){
   let summand = {};
-
   // Add default coefficients and exponents
   if(!coefficient) {
     coefficient = 1.0;
@@ -117,7 +116,9 @@ module.exports = function buildSummands(equation){
     }
 
   }
-  addSummandToList(coefficient, variable, exponent, operator, passEqual);
+  if(coefficient || variable || exponent){
+    addSummandToList(coefficient, variable, exponent, operator, passEqual);
+  }
 
   // Filter out all variables that have coefficient 0
   summands_list = summands_list.filter(elem => elem.coefficient !== 0);
