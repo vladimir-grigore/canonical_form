@@ -11,12 +11,12 @@ function convertToCanonical(equation) {
   return buildCanonicalForm(summands_list);
 }
 
-console.log("Enter equation:");
-stdin.addListener("data", function(d) {
+console.log('Enter equation:');
+stdin.addListener('data', function(d) {
   equation_input = d.toString().trim();
   equation_input = equation_input.split(' ').join('');
 
   let normalized_eq = convertToCanonical(equation_input);
-  console.log("Canonical form:", normalized_eq);
+  console.log('Canonical form:', normalized_eq);
   process.exit();
 });

@@ -1,0 +1,24 @@
+{
+  "name": "canonical_form",
+  "version": "1.0.0",
+  "description": "Transform any equation into canonical form",
+  "main": "canonical.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vladimir-grigore/canonical_form.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vladimir-grigore/canonical_form/issues"
+  },
+  "homepage": "https://github.com/vladimir-grigore/canonical_form#readme",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.3.0"
+  }
+}

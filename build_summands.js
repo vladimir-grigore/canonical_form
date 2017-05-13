@@ -40,13 +40,14 @@ function addSummandToList(coefficient, variable, exponent, operator, passEqual){
     // Build summand as an object and push it to the summands_list array
     summand.coefficient = coefficient;
     summand.variable = variable;
-    summand.exponent = exponent;
+    summand.exponent = parseInt(exponent);
     summands_list.push(summand);
   }
 }
 
 // Build each summand and push it to the summands list
 module.exports = function buildSummands(equation){
+  summands_list = [];
   let coefficient = '';
   let variable = '';
   let exponent = '';
