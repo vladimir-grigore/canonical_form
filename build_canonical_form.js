@@ -1,20 +1,29 @@
 module.exports = function buildCanonicalForm(summands_list){
   let canonical_form = '';
 
+  // Sort the summands by exponent
+  summands_list = summands_list.sort((a, b) => {
+    if(a.exponent < b.exponent) return 1;
+    if(a.exponent > b.exponent) return -1;
+  });
+
   for(let summand of summands_list){
-    console.log("I HAVE SUMMAND:", summand);
 
     if(canonical_form.length > 0){
       canonical_form += ' ';
     }
 
     // Add operator and coefficient for each variable
-    if(summand.coefficient > 0){
+    if(summand.coefficient >= 0){
       if(canonical_form.length > 0){
         canonical_form += '+ ';
       }
-      if(summand.coefficient > 1){
+      if(summand.variable === ''){
         canonical_form += summand.coefficient;
+      } else {
+        if(summand.coefficient > 1){
+          canonical_form += summand.coefficient;
+        }
       }
     } else if(summand.coefficient < 0){
       if(canonical_form.length > 0){
@@ -22,10 +31,16 @@ module.exports = function buildCanonicalForm(summands_list){
       } else {
         canonical_form += '-';
       }
-      if(summand.coefficient < -1){
+      if(summand.variable === ''){
         summand.coefficient *= -1;
         canonical_form += summand.coefficient;
+      } else {
+        if(summand.coefficient < -1){
+          summand.coefficient *= -1;
+          canonical_form += summand.coefficient;
+        }
       }
+
     }
 
     // Add variable if it exists
@@ -38,6 +53,10 @@ module.exports = function buildCanonicalForm(summands_list){
       canonical_form += '^';
       canonical_form += summand.exponent;
     }
+  }
+
+  if(canonical_form === ''){
+    canonical_form = '0';
   }
   canonical_form += ' = 0';
   return canonical_form;
