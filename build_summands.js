@@ -1,30 +1,24 @@
-var summands_list = [];
+let summands_list = [];
 
 function isOperator(item){
-  if(item === '+' || item === '-' || item === '='){
-    return true;
-  } else {
-    return false;
-  }
+  return item === '+' || item === '-' || item === '=';
 }
 
 function isBracket(item){
-  if(item === '(' || item === ')' || item === '[' || item === ']'){
-    return true;
-  } else {
-    return false;
-  }
+  return item === '(' || item === ')' || item === '[' || item === ']';
 }
 
 function addSummandToList(coefficient, variable, exponent, operator, passEqual){
   let summand = {};
 
-  if(coefficient === '') {
+  // Add default coefficients and exponents
+  if(!coefficient) {
     coefficient = 1.0;
   } else {
     coefficient = parseFloat(coefficient);
   }
-  if(exponent === ''){
+
+  if(!exponent){
     exponent = 1;
   }
 
@@ -52,7 +46,7 @@ function addSummandToList(coefficient, variable, exponent, operator, passEqual){
 }
 
 // Build each summand and push it to the summands list
-module.exports = function buildSummands(equation) {
+module.exports = function buildSummands(equation){
   let coefficient = '';
   let variable = '';
   let exponent = '';
@@ -66,13 +60,12 @@ module.exports = function buildSummands(equation) {
     // When reaching a bracket, construct the summand and add it to the list
     // Or, if coefficient, variable and exponent are empty, keep track of the operator
     if(isBracket(item)){
-      if(coefficient !== '' || variable !== '' || exponent !== ''){
+      if(coefficient || variable || exponent){
         addSummandToList(coefficient, variable, exponent, operator, passEqual);
           coefficient = '';
           variable = '';
           exponent = '';
           operator = '';
-          // continue;
       } else {
         bracket_operator = operator;
         operator = '';
@@ -83,17 +76,15 @@ module.exports = function buildSummands(equation) {
     // When reaching on operator, construct summand and add it to the list
     // Or set the operator if coefficient, variable and exponent are empty
     if(isOperator(item)){
-      if(coefficient !== '' || variable !== '' || exponent !== ''){
+      if(coefficient || variable || exponent){
         // If the coefficient does not have an operator, use the bracket operator instead
-        if(operator === ''){
+        if(!operator){
           operator = bracket_operator;
         }
         addSummandToList(coefficient, variable, exponent, operator, passEqual);
           coefficient = '';
           variable = '';
           exponent = '';
-          // operator = '';
-          // continue;
       }
       if(item === '='){
         // When passEqual is true, we are left of the equals and all operators are reversed and the bracket_operator is reset
@@ -101,7 +92,7 @@ module.exports = function buildSummands(equation) {
         bracket_operator = '';
       } else {
         // A '-' operator before a bracket will reverse all operators and all coefficients
-        if(bracket_operator !== ''){
+        if(bracket_operator){
           if(bracket_operator === '-' && item === '-'){
             operator = '+';
           } else {
@@ -110,13 +101,12 @@ module.exports = function buildSummands(equation) {
         } else {
           operator = item;
         }
-        // operator = item;
       }
       continue;
     }
 
     // Assign the coefficient, variable or exponent
-    if(!isNaN(item) || item === '.' && variable === ''){
+    if(!isNaN(item) || item === '.' && !variable){
       coefficient = coefficient + item;
     } else if(isNaN(item) && item !== '^'){
       variable = variable + item;
@@ -128,7 +118,7 @@ module.exports = function buildSummands(equation) {
   }
   addSummandToList(coefficient, variable, exponent, operator, passEqual);
 
-  // Take out all variables that have coefficient 0
+  // Filter out all variables that have coefficient 0
   summands_list = summands_list.filter(elem => elem.coefficient !== 0);
   return summands_list;
 }

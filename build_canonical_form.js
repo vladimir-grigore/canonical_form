@@ -8,7 +8,6 @@ module.exports = function buildCanonicalForm(summands_list){
   });
 
   for(let summand of summands_list){
-
     if(canonical_form.length > 0){
       canonical_form += ' ';
     }
@@ -18,7 +17,7 @@ module.exports = function buildCanonicalForm(summands_list){
       if(canonical_form.length > 0){
         canonical_form += '+ ';
       }
-      if(summand.variable === ''){
+      if(!summand.variable){
         canonical_form += summand.coefficient;
       } else {
         if(summand.coefficient > 1){
@@ -31,7 +30,7 @@ module.exports = function buildCanonicalForm(summands_list){
       } else {
         canonical_form += '-';
       }
-      if(summand.variable === ''){
+      if(!summand.variable){
         summand.coefficient *= -1;
         canonical_form += summand.coefficient;
       } else {
@@ -40,11 +39,10 @@ module.exports = function buildCanonicalForm(summands_list){
           canonical_form += summand.coefficient;
         }
       }
-
     }
 
     // Add variable if it exists
-    if(summand.variable !== ''){
+    if(summand.variable){
       canonical_form += summand.variable;
     }
 
@@ -55,7 +53,7 @@ module.exports = function buildCanonicalForm(summands_list){
     }
   }
 
-  if(canonical_form === ''){
+  if(!canonical_form){
     canonical_form = '0';
   }
   canonical_form += ' = 0';
